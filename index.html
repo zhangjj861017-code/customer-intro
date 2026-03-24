@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>客户首次拜访 - 公司介绍</title>
+    <title>派勒地垫 - 专业地垫解决方案</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -20,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        /* 导航栏 */
         nav {
             position: fixed;
             top: 0;
@@ -42,12 +40,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            cursor: pointer;
         }
 
         nav ul {
             display: flex;
             list-style: none;
             gap: 2rem;
+            flex-wrap: wrap;
         }
 
         nav a {
@@ -55,21 +55,30 @@
             text-decoration: none;
             transition: color 0.3s;
             font-size: 0.95rem;
+            cursor: pointer;
         }
 
         nav a:hover {
             color: #58a6ff;
         }
 
-        /* Hero区域 */
-        .hero {
+        .page {
+            display: none;
             min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            min-height: calc(100vh - 80px);
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 2rem;
-            margin-top: 60px;
             position: relative;
             overflow: hidden;
         }
@@ -111,35 +120,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: slideInDown 0.8s ease-out;
         }
 
         .hero p {
             font-size: 1.3rem;
             margin-bottom: 2rem;
             color: #b0b0b0;
-            animation: slideInUp 0.8s ease-out 0.2s both;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, #58a6ff, #79c0ff);
-            color: #0d1117;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: slideInUp 0.8s ease-out 0.4s both;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
-        }
-
-        /* 公司介绍 */
-        .about {
+        .section {
             padding: 6rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
@@ -155,638 +144,496 @@
             background-clip: text;
         }
 
-        .about-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
 
-        .about-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(88, 166, 255, 0.12);
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .about-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(88, 166, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .about-card i {
-            font-size: 2.5rem;
-            color: #58a6ff;
-            margin-bottom: 1rem;
-        }
-
-        .about-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .about-card p {
-            color: #a0a0a0;
-            font-size: 0.95rem;
-        }
-
-        /* 产品服务 */
-        .services {
-            padding: 6rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .services-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.06), rgba(121, 192, 255, 0.06));
-            border: 1px solid rgba(88, 166, 255, 0.15);
-            border-radius: 15px;
+        .card {
+            background: rgba(30, 40, 50, 0.6);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            border-radius: 12px;
             padding: 2rem;
             transition: all 0.3s;
             cursor: pointer;
         }
 
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(88, 166, 255, 0.4);
-            box-shadow: 0 15px 40px rgba(88, 166, 255, 0.12);
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(88, 166, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
         }
 
-        .service-icon {
-            font-size: 2rem;
-            color: #58a6ff;
+        .card h3 {
             margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
-        .service-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .service-card p {
+        .card p {
             color: #a0a0a0;
-            font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        /* 数据分析 */
-        .analytics {
-            padding: 6rem 2rem;
-        }
-
-        .analytics-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .stat-box {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(88, 166, 255, 0.12);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
             background: linear-gradient(135deg, #58a6ff, #79c0ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
+            color: #0d1117;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
-        .stat-label {
-            color: #a0a0a0;
-            font-size: 0.95rem;
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
         }
 
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .chart-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(88, 166, 255, 0.12);
-            border-radius: 15px;
-            padding: 2rem;
-            position: relative;
-            height: 300px;
-        }
-
-        /* 客户案例 */
-        .cases {
-            padding: 6rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .cases-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .case-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .case-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(88, 166, 255, 0.12);
-            border-radius: 15px;
-            padding: 2rem;
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(88, 166, 255, 0.2);
+            border: 1px solid rgba(88, 166, 255, 0.5);
+            color: #58a6ff;
+            border-radius: 25px;
+            cursor: pointer;
             transition: all 0.3s;
         }
 
-        .case-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(88, 166, 255, 0.3);
+        .back-btn:hover {
+            background: rgba(88, 166, 255, 0.3);
         }
 
-        .case-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #58a6ff;
+        /* 产品页面 - 绿色系 */
+        #products .section-title {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .case-desc {
+        #products .card {
+            border-color: rgba(46, 204, 113, 0.2);
+        }
+
+        #products .card:hover {
+            border-color: rgba(46, 204, 113, 0.5);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.1);
+        }
+
+        #products .btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        #products .btn:hover {
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+        }
+
+        /* 客户页面 - 紫色系 */
+        #customers .section-title {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #customers .card {
+            border-color: rgba(155, 89, 182, 0.2);
+        }
+
+        #customers .card:hover {
+            border-color: rgba(155, 89, 182, 0.5);
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.1);
+        }
+
+        #customers .btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        #customers .btn:hover {
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3);
+        }
+
+        /* 资质页面 - 橙色系 */
+        #certifications .section-title {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #certifications .card {
+            border-color: rgba(230, 126, 34, 0.2);
+        }
+
+        #certifications .card:hover {
+            border-color: rgba(230, 126, 34, 0.5);
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.1);
+        }
+
+        /* 竞争页面 - 红色系 */
+        #competitors .section-title {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #competitors .card {
+            border-color: rgba(231, 76, 60, 0.2);
+        }
+
+        #competitors .card:hover {
+            border-color: rgba(231, 76, 60, 0.5);
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.1);
+        }
+
+        /* 渠道页面 - 青色系 */
+        #channels .section-title {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #channels .card {
+            border-color: rgba(26, 188, 156, 0.2);
+        }
+
+        #channels .card:hover {
+            border-color: rgba(26, 188, 156, 0.5);
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.1);
+        }
+
+        #channels .btn {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+        }
+
+        #channels .btn:hover {
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.3);
+        }
+
+        .detail-content {
+            background: rgba(30, 40, 50, 0.6);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-content h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .detail-content p {
             color: #a0a0a0;
-            font-size: 0.95rem;
+            line-height: 1.8;
             margin-bottom: 1rem;
         }
 
-        .case-result {
-            color: #79c0ff;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        /* 联系方式 */
-        .contact {
-            padding: 6rem 2rem;
-            text-align: center;
-        }
-
-        .contact-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-info {
+        .specs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
-        .contact-item {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(88, 166, 255, 0.12);
-            border-radius: 15px;
-            padding: 1.5rem;
+        .spec-item {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #58a6ff;
         }
 
-        .contact-item i {
-            font-size: 2rem;
+        .spec-item strong {
             color: #58a6ff;
-            margin-bottom: 0.5rem;
         }
 
-        .contact-item p {
-            color: #a0a0a0;
-            font-size: 0.9rem;
-        }
-
-        /* 动画 */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(20px); }
         }
 
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes countUp {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* 响应式 */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
             nav ul {
                 gap: 1rem;
-                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
             }
 
             .section-title {
                 font-size: 1.8rem;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
             nav {
-                padding: 0.8rem 1rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            nav ul {
-                gap: 0.5rem;
-                font-size: 0.75rem;
-            }
-
-            .hero {
-                margin-top: 50px;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav>
-        <div class="logo">
-            <i class="fas fa-leaf"></i> 派勒地垫
-        </div>
+        <div class="logo" onclick="showPage('home')">派勒地垫</div>
         <ul>
-            <li><a href="#about">公司概况</a></li>
-            <li><a href="#services">产品系列</a></li>
-            <li><a href="#analytics">企业实力</a></li>
-            <li><a href="#cases">客户案例</a></li>
-            <li><a href="#contact">联系我们</a></li>
+            <li><a onclick="showPage('home')">首页</a></li>
+            <li><a onclick="showPage('products')">产品</a></li>
+            <li><a onclick="showPage('customers')">客户案例</a></li>
+            <li><a onclick="showPage('certifications')">资质认证</a></li>
+            <li><a onclick="showPage('competitors')">竞争对比</a></li>
+            <li><a onclick="showPage('channels')">销售渠道</a></li>
         </ul>
     </nav>
 
-    <!-- Hero区域 -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>派勒地垫</h1>
-            <p>地面安全与污染控制系统专家</p>
-            <p style="font-size: 1rem; color: #888; margin-top: 1rem;">为全球商业空间提供专业的地垫解决方案</p>
-            <a href="#contact" class="cta-button">了解更多</a>
-        </div>
-    </section>
-
-    <!-- 公司介绍 -->
-    <section class="about" id="about">
-        <h2 class="section-title">公司概况</h2>
-        <div class="about-grid">
-            <div class="about-card">
-                <i class="fas fa-history"></i>
-                <h3>运营历程</h3>
-                <p>成立于2008年，已运营16年+，专注地面安全领域</p>
-            </div>
-            <div class="about-card">
-                <i class="fas fa-users"></i>
-                <h3>团队规模</h3>
-                <p>员工100-299人，专业技术和服务团队</p>
-            </div>
-            <div class="about-card">
-                <i class="fas fa-award"></i>
-                <h3>资质认证</h3>
-                <p>国家高新技术企业、上海专精特新企业</p>
-            </div>
-            <div class="about-card">
-                <i class="fas fa-globe"></i>
-                <h3>服务覆盖</h3>
-                <p>265个城市，服务上千家企业客户</p>
+    <!-- 首页 -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>派勒地垫</h1>
+                <p>专业地垫解决方案提供商</p>
+                <p style="font-size: 1rem; color: #888;">为全球顶级品牌提供高品质地垫产品</p>
+                <button class="btn" onclick="showPage('products')">了解产品</button>
             </div>
         </div>
-    </section>
-
-    <!-- 产品服务 -->
-    <section class="services" id="services">
-        <div class="services-container">
-            <h2 class="section-title">核心产品系列</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-th"></i></div>
-                    <h3>派勒皮克斯</h3>
-                    <p>模块式拼接地垫，安装便捷，有无井坑均可使用，适用于大门口和商场入口</p>
+        <div class="section">
+            <h2 class="section-title">核心优势</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🏆 行业领先</h3>
+                    <p>20+项国家专利，ISO9001、ISO14001认证，国家高新技术企业</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-water"></i></div>
-                    <h3>派勒摩雅</h3>
-                    <p>刮砂除尘+吸水功能一体，适用于商场和酒店大堂，保持地面干爽</p>
+                <div class="card">
+                    <h3>🌍 全球客户</h3>
+                    <p>服务万达、万豪、迪士尼等全球顶级品牌，300+项目经验</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-cube"></i></div>
-                    <h3>派勒皮卡索</h3>
-                    <p>模块式刮砂地垫，专为高端商场和物业设计，灵活组合</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>派勒艾肯</h3>
-                    <p>超厚耐磨刮砂地垫，适用于高人流区域，耐久性强</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-door-open"></i></div>
-                    <h3>派勒德雅/维雅</h3>
-                    <p>刮砂+吸水+迎宾一体化设计，为入口区域提供完整解决方案</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-broom"></i></div>
-                    <h3>丽雅洁</h3>
-                    <p>商业清洁垫，用于日常清洁，适用于大门口和洗手间</p>
+                <div class="card">
+                    <h3>🎯 多渠道销售</h3>
+                    <p>官网、天猫、淘宝、京东、阿里巴巴等多个销售渠道</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- 数据分析 -->
-    <section class="analytics" id="analytics">
-        <div class="analytics-container">
-            <h2 class="section-title">企业实力数据</h2>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">万达广场项目</div>
+    <!-- 产品页面 -->
+    <div id="products" class="page">
+        <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+        <div class="section">
+            <h2 class="section-title">产品系列</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>皮克斯系列</h3>
+                    <p>高端商务地垫，采用优质材料，适合办公室、酒店等场景</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：防滑、耐磨、易清洁</p>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number" data-target="265">0</div>
-                    <div class="stat-label">服务城市</div>
+                <div class="card">
+                    <h3>摩雅系列</h3>
+                    <p>艺术设计地垫，融合现代美学，提升空间品味</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：设计独特、高档质感</p>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number" data-target="1000">0</div>
-                    <div class="stat-label">企业客户</div>
+                <div class="card">
+                    <h3>皮卡索系列</h3>
+                    <p>创意定制地垫，支持个性化设计，满足特殊需求</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：可定制、创意十足</p>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number" data-target="16">0</div>
-                    <div class="stat-label">运营年限</div>
+                <div class="card">
+                    <h3>艾肯系列</h3>
+                    <p>经济实用地垫，性价比高，适合大规模采购</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：经济、耐用、实用</p>
                 </div>
-            </div>
-
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <canvas id="revenueChart"></canvas>
+                <div class="card">
+                    <h3>德雅/维雅系列</h3>
+                    <p>专业级地垫，适合高端商业场所，品质卓越</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：高端、专业、耐久</p>
                 </div>
-                <div class="chart-container">
-                    <canvas id="growthChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 客户案例 -->
-    <section class="cases" id="cases">
-        <div class="cases-container">
-            <h2 class="section-title">核心客户与案例</h2>
-            <div class="case-grid">
-                <div class="case-card">
-                    <div class="case-title">万达广场</div>
-                    <div class="case-desc">全国超过100家万达广场合作</div>
-                    <div class="case-result">✓ 万达广场优选供应商</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-title">厦门华尔道夫酒店</div>
-                    <div class="case-desc">五星级酒店公共区域解决方案</div>
-                    <div class="case-result">✓ 服务评价"总体很满意"</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-title">博鳌机场</div>
-                    <div class="case-desc">机场安全地面系统供应</div>
-                    <div class="case-result">✓ 发货速度快、服务专业</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-title">商业地产</div>
-                    <div class="case-desc">全国各地商场、购物中心</div>
-                    <div class="case-result">✓ 地面安全与清洁方案</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-title">高星级酒店</div>
-                    <div class="case-desc">多家五星级酒店集团合作</div>
-                    <div class="case-result">✓ 长期稳定供应关系</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-title">游乐场所</div>
-                    <div class="case-desc">泳池、游乐园等防滑需求</div>
-                    <div class="case-result">✓ 安全防滑专业方案</div>
+                <div class="card">
+                    <h3>丽雅洁系列</h3>
+                    <p>清洁专用地垫，强效吸水吸尘，保持环境卫生</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">特点：吸水、吸尘、易清洁</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- 联系方式 -->
-    <section class="contact" id="contact">
-        <div class="contact-container">
-            <h2 class="section-title">联系我们</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <p>021-38767886</p>
+    <!-- 客户案例页面 -->
+    <div id="customers" class="page">
+        <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+        <div class="section">
+            <h2 class="section-title">核心客户案例</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>万达集团</h3>
+                    <p>合作项目：300+</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为万达全国各地商业综合体、酒店、影城等提供专业地垫解决方案，覆盖超过300个项目</p>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <p>Sabrina@paalermat.com</p>
+                <div class="card">
+                    <h3>万豪酒店</h3>
+                    <p>国际五星级酒店</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为万豪旗下多家高端酒店提供定制化地垫产品，提升客户体验</p>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>上海市金山区</p>
+                <div class="card">
+                    <h3>迪士尼乐园</h3>
+                    <p>主题乐园合作</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为迪士尼乐园提供高品质地垫，确保游客安全与舒适体验</p>
+                </div>
+                <div class="card">
+                    <h3>华尔道夫酒店</h3>
+                    <p>奢华酒店品牌</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为华尔道夫提供高端定制地垫，彰显品牌尊贵气质</p>
+                </div>
+                <div class="card">
+                    <h3>国际机场</h3>
+                    <p>交通枢纽</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为多个国际机场提供耐磨、易清洁的专业地垫产品</p>
+                </div>
+                <div class="card">
+                    <h3>高端商业综合体</h3>
+                    <p>商业地产</p>
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">为全国各地高端购物中心、商业广场提供整体地垫解决方案</p>
                 </div>
             </div>
-            <a href="https://www.paalermat.com" class="cta-button" target="_blank">访问官网</a>
         </div>
-    </section>
+    </div>
+
+    <!-- 资质认证页面 -->
+    <div id="certifications" class="page">
+        <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+        <div class="section">
+            <h2 class="section-title">资质认证</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🏅 国家专利</h3>
+                    <p>拥有20+项国家发明专利和实用新型专利，技术领先业界</p>
+                </div>
+                <div class="card">
+                    <h3>📋 ISO9001认证</h3>
+                    <p>通过ISO9001质量管理体系认证，确保产品质量稳定可靠</p>
+                </div>
+                <div class="card">
+                    <h3>🌱 ISO14001认证</h3>
+                    <p>通过ISO14001环境管理体系认证，践行绿色环保理念</p>
+                </div>
+                <div class="card">
+                    <h3>🚀 国家高新技术企业</h3>
+                    <p>获得国家高新技术企业认证，享受相关税收优惠政策</p>
+                </div>
+                <div class="card">
+                    <h3>⭐ 上海专精特新企业</h3>
+                    <p>被认定为上海市专精特新企业，代表行业发展方向</p>
+                </div>
+                <div class="card">
+                    <h3>✅ 行业认可</h3>
+                    <p>获得多项行业协会认可和荣誉，市场信誉度高</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 竞争对比页面 -->
+    <div id="competitors" class="page">
+        <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+        <div class="section">
+            <h2 class="section-title">竞争对手对比</h2>
+            <div class="detail-content">
+                <h3>派勒 vs 主要竞争对手</h3>
+                <div class="specs">
+                    <div class="spec-item">
+                        <strong>派勒地垫</strong>
+                        <p>20+专利、ISO认证、国家高新企业、300+项目经验</p>
+                    </div>
+                    <div class="spec-item">
+                        <strong>3M</strong>
+                        <p>国际品牌、产品线丰富、价格较高</p>
+                    </div>
+                    <div class="spec-item">
+                        <strong>IKEA</strong>
+                        <p>家居零售、产品多样、中端价位</p>
+                    </div>
+                    <div class="spec-item">
+                        <strong>太力</strong>
+                        <p>国内品牌、产品齐全、竞争力强</p>
+                    </div>
+                    <div class="spec-item">
+                        <strong>佳帮手</strong>
+                        <p>专业清洁品牌、产品专业、市场认可度高</p>
+                    </div>
+                    <div class="spec-item">
+                        <strong>华德地毯</strong>
+                        <p>地毯专业、产品高端、价格昂贵</p>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-content">
+                <h3>派勒竞争优势</h3>
+                <p>✓ 专利技术领先，产品创新能力强</p>
+                <p>✓ 国家认证齐全，品质有保障</p>
+                <p>✓ 大客户经验丰富，服务体系完善</p>
+                <p>✓ 多渠道销售，覆盖面广</p>
+                <p>✓ 性价比优势明显，成本控制能力强</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 销售渠道页面 -->
+    <div id="channels" class="page">
+        <button class="back-btn" onclick="showPage('home')">← 返回首页</button>
+        <div class="section">
+            <h2 class="section-title">销售渠道</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>官方网站</h3>
+                    <p>派勒地垫官方商城，提供完整产品信息和在线购买服务</p>
+                    <button class="btn">访问官网</button>
+                </div>
+                <div class="card">
+                    <h3>天猫旗舰店</h3>
+                    <p>天猫平台官方旗舰店，享受天猫会员权益和保障</p>
+                    <button class="btn">进入天猫</button>
+                </div>
+                <div class="card">
+                    <h3>淘宝店铺</h3>
+                    <p>淘宝平台多家授权店铺，产品齐全价格优惠</p>
+                    <button class="btn">进入淘宝</button>
+                </div>
+                <div class="card">
+                    <h3>京东商城</h3>
+                    <p>京东平台官方店铺，享受京东物流和售后服务</p>
+                    <button class="btn">进入京东</button>
+                </div>
+                <div class="card">
+                    <h3>阿里巴巴</h3>
+                    <p>阿里巴巴B2B平台，支持批量采购和定制服务</p>
+                    <button class="btn">进入阿里</button>
+                </div>
+                <div class="card">
+                    <h3>微信公众号</h3>
+                    <p>关注派勒地垫微信公众号，获取最新产品和优惠信息</p>
+                    <button class="btn">关注微信</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 数字动画
-        function animateNumbers() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            const observerOptions = {
-                threshold: 0.5
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                        entry.target.classList.add('animated');
-                        const target = parseInt(entry.target.dataset.target);
-                        const duration = 2000;
-                        const start = Date.now();
-
-                        const animate = () => {
-                            const now = Date.now();
-                            const progress = Math.min((now - start) / duration, 1);
-                            const current = Math.floor(progress * target);
-                            entry.target.textContent = current;
-
-                            if (progress < 1) {
-                                requestAnimationFrame(animate);
-                            }
-                        };
-                        animate();
-                    }
-                });
-            }, observerOptions);
-
-            statNumbers.forEach(num => observer.observe(num));
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 显示指定页面
+            document.getElementById(pageId).classList.add('active');
+            // 滚动到顶部
+            window.scrollTo(0, 0);
         }
-
-        // 图表初始化
-        function initCharts() {
-            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-            new Chart(revenueCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2019年', '2020年', '2021年', '2022年', '2023年', '2024年'],
-                    datasets: [{
-                        label: '服务项目数',
-                        data: [45, 68, 92, 110, 135, 160],
-                        backgroundColor: 'rgba(88, 166, 255, 0.6)',
-                        borderColor: 'rgba(88, 166, 255, 1)',
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#e0e0e0' }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
-                        }
-                    }
-                }
-            });
-
-            const growthCtx = document.getElementById('growthChart').getContext('2d');
-            new Chart(growthCtx, {
-                type: 'line',
-                data: {
-                    labels: ['2019年', '2020年', '2021年', '2022年', '2023年', '2024年'],
-                    datasets: [{
-                        label: '客户满意度 (%)',
-                        data: [92, 94, 95, 96, 97, 98],
-                        borderColor: 'rgba(88, 166, 255, 1)',
-                        backgroundColor: 'rgba(88, 166, 255, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: 'rgba(88, 166, 255, 1)',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#e0e0e0' }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(88, 166, 255, 0.1)' },
-                            min: 85,
-                            max: 100
-                        },
-                        x: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
-                        }
-                    }
-                }
-            });
-        }
-
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            animateNumbers();
-            initCharts();
-        });
     </script>
 </body>
 </html>
