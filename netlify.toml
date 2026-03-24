@@ -1,0 +1,9 @@
+[build]
+  command = "npm install"
+  functions = "api"
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/api/customer-intro"
+  status = 200
