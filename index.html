@@ -5,7 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>派勒地垫 - 专业地垫解决方案</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #58a6ff;
+            --secondary-blue: #79c0ff;
+            --primary-green: #2ecc71;
+            --secondary-green: #27ae60;
+            --primary-purple: #9b59b6;
+            --secondary-purple: #8e44ad;
+            --primary-orange: #e67e22;
+            --secondary-orange: #d35400;
+            --primary-red: #e74c3c;
+            --secondary-red: #c0392b;
+            --primary-cyan: #1abc9c;
+            --secondary-cyan: #16a085;
+            --dark-bg: #0f1419;
+            --card-bg: rgba(30, 40, 50, 0.6);
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,10 +33,14 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
-            color: #e0e0e0;
+            color: var(--text-light);
             overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
         }
 
         nav {
@@ -35,8 +59,9 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -51,25 +76,49 @@
         }
 
         nav a {
-            color: #e0e0e0;
+            color: var(--text-light);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
             font-size: 0.95rem;
             cursor: pointer;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
         nav a:hover {
-            color: #58a6ff;
+            color: var(--primary-blue);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
         }
 
         .page {
             display: none;
             min-height: 100vh;
             padding-top: 80px;
+            animation: fadeIn 0.5s ease;
         }
 
         .page.active {
             display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .hero {
@@ -81,6 +130,7 @@
             padding: 2rem;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.05) 0%, rgba(121, 192, 255, 0.02) 100%);
         }
 
         .hero::before {
@@ -88,7 +138,7 @@
             position: absolute;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(88, 166, 255, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             top: -100px;
             right: -100px;
@@ -100,7 +150,7 @@
             position: absolute;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(121, 192, 255, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(121, 192, 255, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             bottom: -50px;
             left: -50px;
@@ -116,7 +166,8 @@
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -126,6 +177,7 @@
             font-size: 1.3rem;
             margin-bottom: 2rem;
             color: #b0b0b0;
+            font-weight: 500;
         }
 
         .section {
@@ -138,7 +190,8 @@
             font-size: 2.5rem;
             margin-bottom: 3rem;
             text-align: center;
-            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -152,47 +205,71 @@
         }
 
         .card {
-            background: rgba(30, 40, 50, 0.6);
+            background: var(--card-bg);
             border: 1px solid rgba(88, 166, 255, 0.2);
             border-radius: 12px;
             padding: 2rem;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
             border-color: rgba(88, 166, 255, 0.5);
-            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(88, 166, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .card h3 {
             margin-bottom: 1rem;
             font-size: 1.3rem;
+            font-weight: 600;
         }
 
         .card p {
-            color: #a0a0a0;
+            color: var(--text-muted);
             line-height: 1.6;
+            font-weight: 400;
         }
 
         .btn {
             display: inline-block;
             padding: 0.8rem 2rem;
-            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: #0d1117;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             border: none;
             cursor: pointer;
             margin-top: 1rem;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(88, 166, 255, 0.4);
         }
 
         .back-btn {
@@ -201,19 +278,26 @@
             padding: 0.5rem 1.5rem;
             background: rgba(88, 166, 255, 0.2);
             border: 1px solid rgba(88, 166, 255, 0.5);
-            color: #58a6ff;
+            color: var(--primary-blue);
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
         }
 
         .back-btn:hover {
             background: rgba(88, 166, 255, 0.3);
+            transform: translateX(-3px);
         }
 
         /* 产品页面 - 绿色系 */
+        #products {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.03) 0%, rgba(39, 174, 96, 0.02) 100%);
+        }
+
         #products .section-title {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -225,20 +309,24 @@
 
         #products .card:hover {
             border-color: rgba(46, 204, 113, 0.5);
-            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.1);
+            box-shadow: 0 20px 40px rgba(46, 204, 113, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #products .btn {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
         }
 
         #products .btn:hover {
-            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 15px 35px rgba(46, 204, 113, 0.4);
         }
 
         /* 客户页面 - 紫色系 */
+        #customers {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.03) 0%, rgba(142, 68, 173, 0.02) 100%);
+        }
+
         #customers .section-title {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -250,20 +338,24 @@
 
         #customers .card:hover {
             border-color: rgba(155, 89, 182, 0.5);
-            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.1);
+            box-shadow: 0 20px 40px rgba(155, 89, 182, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #customers .btn {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
         }
 
         #customers .btn:hover {
-            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 15px 35px rgba(155, 89, 182, 0.4);
         }
 
         /* 资质页面 - 橙色系 */
+        #certifications {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.03) 0%, rgba(211, 84, 0, 0.02) 100%);
+        }
+
         #certifications .section-title {
-            background: linear-gradient(135deg, #e67e22, #d35400);
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -275,12 +367,24 @@
 
         #certifications .card:hover {
             border-color: rgba(230, 126, 34, 0.5);
-            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.1);
+            box-shadow: 0 20px 40px rgba(230, 126, 34, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        #certifications .btn {
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+        }
+
+        #certifications .btn:hover {
+            box-shadow: 0 15px 35px rgba(230, 126, 34, 0.4);
         }
 
         /* 竞争页面 - 红色系 */
+        #competitors {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.03) 0%, rgba(192, 57, 43, 0.02) 100%);
+        }
+
         #competitors .section-title {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -292,12 +396,24 @@
 
         #competitors .card:hover {
             border-color: rgba(231, 76, 60, 0.5);
-            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.1);
+            box-shadow: 0 20px 40px rgba(231, 76, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        #competitors .btn {
+            background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+        }
+
+        #competitors .btn:hover {
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
         }
 
         /* 渠道页面 - 青色系 */
+        #channels {
+            background: linear-gradient(135deg, rgba(26, 188, 156, 0.03) 0%, rgba(22, 160, 133, 0.02) 100%);
+        }
+
         #channels .section-title {
-            background: linear-gradient(135deg, #1abc9c, #16a085);
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -309,15 +425,15 @@
 
         #channels .card:hover {
             border-color: rgba(26, 188, 156, 0.5);
-            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.1);
+            box-shadow: 0 20px 40px rgba(26, 188, 156, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #channels .btn {
-            background: linear-gradient(135deg, #1abc9c, #16a085);
+            background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-cyan));
         }
 
         #channels .btn:hover {
-            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.3);
+            box-shadow: 0 15px 35px rgba(26, 188, 156, 0.4);
         }
 
         .detail-content {
@@ -326,58 +442,104 @@
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .detail-content:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
         }
 
         .detail-content h3 {
-            margin-bottom: 1rem;
             font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
         }
 
         .detail-content p {
-            color: #a0a0a0;
+            margin-bottom: 0.8rem;
             line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        .specs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .spec-item {
-            background: rgba(88, 166, 255, 0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 3px solid #58a6ff;
-        }
-
-        .spec-item strong {
-            color: #58a6ff;
+            color: var(--text-muted);
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(20px); }
+            50% { transform: translateY(-20px); }
         }
 
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
+            nav {
+                padding: 1rem;
             }
 
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .section {
+                padding: 4rem 1rem;
+            }
+
+            .page {
+                padding-top: 70px;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
             .hero h1 {
                 font-size: 2rem;
             }
 
-            .section-title {
-                font-size: 1.8rem;
+            .hero p {
+                font-size: 1rem;
             }
 
-            nav {
-                flex-direction: column;
-                gap: 1rem;
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .card h3 {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            nav ul {
+                gap: 0.8rem;
             }
         }
     </style>
@@ -625,15 +787,22 @@
 
     <script>
         function showPage(pageId) {
-            // 隐藏所有页面
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-            // 显示指定页面
             document.getElementById(pageId).classList.add('active');
-            // 滚动到顶部
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`nav a[onclick="showPage('${pageId}')"]`)?.classList.add('active');
+
             window.scrollTo(0, 0);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('nav a[onclick="showPage(\'home\')"]')?.classList.add('active');
+        });
     </script>
 </body>
 </html>
