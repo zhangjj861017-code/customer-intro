@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户首次拜访 - 公司介绍</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(88, 166, 255, 0.15);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #58a6ff;
+        }
+
+        /* Hero区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(121, 192, 255, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #b0b0b0;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            color: #0d1117;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
+        }
+
+        /* 公司介绍 */
+        .about {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(88, 166, 255, 0.12);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(88, 166, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .about-card i {
+            font-size: 2.5rem;
+            color: #58a6ff;
+            margin-bottom: 1rem;
+        }
+
+        .about-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-card p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        /* 产品服务 */
+        .services {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.06), rgba(121, 192, 255, 0.06));
+            border: 1px solid rgba(88, 166, 255, 0.15);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(88, 166, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(88, 166, 255, 0.12);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            color: #58a6ff;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-card p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 数据分析 */
+        .analytics {
+            padding: 6rem 2rem;
+        }
+
+        .analytics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 166, 255, 0.12);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 166, 255, 0.12);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            height: 300px;
+        }
+
+        /* 客户案例 */
+        .cases {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .cases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .case-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 166, 255, 0.12);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+
+        .case-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #58a6ff;
+        }
+
+        .case-desc {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .case-result {
+            color: #79c0ff;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* 联系方式 */
+        .contact {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(88, 166, 255, 0.12);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: #58a6ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        /* 动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .hero {
+                margin-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-leaf"></i> 派勒地垫
+        </div>
+        <ul>
+            <li><a href="#about">公司概况</a></li>
+            <li><a href="#services">产品系列</a></li>
+            <li><a href="#analytics">企业实力</a></li>
+            <li><a href="#cases">客户案例</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>派勒地垫</h1>
+            <p>地面安全与污染控制系统专家</p>
+            <p style="font-size: 1rem; color: #888; margin-top: 1rem;">为全球商业空间提供专业的地垫解决方案</p>
+            <a href="#contact" class="cta-button">了解更多</a>
+        </div>
+    </section>
+
+    <!-- 公司介绍 -->
+    <section class="about" id="about">
+        <h2 class="section-title">公司概况</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <i class="fas fa-history"></i>
+                <h3>运营历程</h3>
+                <p>成立于2008年，已运营16年+，专注地面安全领域</p>
+            </div>
+            <div class="about-card">
+                <i class="fas fa-users"></i>
+                <h3>团队规模</h3>
+                <p>员工100-299人，专业技术和服务团队</p>
+            </div>
+            <div class="about-card">
+                <i class="fas fa-award"></i>
+                <h3>资质认证</h3>
+                <p>国家高新技术企业、上海专精特新企业</p>
+            </div>
+            <div class="about-card">
+                <i class="fas fa-globe"></i>
+                <h3>服务覆盖</h3>
+                <p>265个城市，服务上千家企业客户</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品服务 -->
+    <section class="services" id="services">
+        <div class="services-container">
+            <h2 class="section-title">核心产品系列</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-th"></i></div>
+                    <h3>派勒皮克斯</h3>
+                    <p>模块式拼接地垫，安装便捷，有无井坑均可使用，适用于大门口和商场入口</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-water"></i></div>
+                    <h3>派勒摩雅</h3>
+                    <p>刮砂除尘+吸水功能一体，适用于商场和酒店大堂，保持地面干爽</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-cube"></i></div>
+                    <h3>派勒皮卡索</h3>
+                    <p>模块式刮砂地垫，专为高端商场和物业设计，灵活组合</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>派勒艾肯</h3>
+                    <p>超厚耐磨刮砂地垫，适用于高人流区域，耐久性强</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-door-open"></i></div>
+                    <h3>派勒德雅/维雅</h3>
+                    <p>刮砂+吸水+迎宾一体化设计，为入口区域提供完整解决方案</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-broom"></i></div>
+                    <h3>丽雅洁</h3>
+                    <p>商业清洁垫，用于日常清洁，适用于大门口和洗手间</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据分析 -->
+    <section class="analytics" id="analytics">
+        <div class="analytics-container">
+            <h2 class="section-title">企业实力数据</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">万达广场项目</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" data-target="265">0</div>
+                    <div class="stat-label">服务城市</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" data-target="1000">0</div>
+                    <div class="stat-label">企业客户</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" data-target="16">0</div>
+                    <div class="stat-label">运营年限</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section class="cases" id="cases">
+        <div class="cases-container">
+            <h2 class="section-title">核心客户与案例</h2>
+            <div class="case-grid">
+                <div class="case-card">
+                    <div class="case-title">万达广场</div>
+                    <div class="case-desc">全国超过100家万达广场合作</div>
+                    <div class="case-result">✓ 万达广场优选供应商</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">厦门华尔道夫酒店</div>
+                    <div class="case-desc">五星级酒店公共区域解决方案</div>
+                    <div class="case-result">✓ 服务评价"总体很满意"</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">博鳌机场</div>
+                    <div class="case-desc">机场安全地面系统供应</div>
+                    <div class="case-result">✓ 发货速度快、服务专业</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">商业地产</div>
+                    <div class="case-desc">全国各地商场、购物中心</div>
+                    <div class="case-result">✓ 地面安全与清洁方案</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">高星级酒店</div>
+                    <div class="case-desc">多家五星级酒店集团合作</div>
+                    <div class="case-result">✓ 长期稳定供应关系</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">游乐场所</div>
+                    <div class="case-desc">泳池、游乐园等防滑需求</div>
+                    <div class="case-result">✓ 安全防滑专业方案</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2 class="section-title">联系我们</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>021-38767886</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>Sabrina@paalermat.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>上海市金山区</p>
+                </div>
+            </div>
+            <a href="https://www.paalermat.com" class="cta-button" target="_blank">访问官网</a>
+        </div>
+    </section>
+
+    <script>
+        // 数字动画
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const observerOptions = {
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                        entry.target.classList.add('animated');
+                        const target = parseInt(entry.target.dataset.target);
+                        const duration = 2000;
+                        const start = Date.now();
+
+                        const animate = () => {
+                            const now = Date.now();
+                            const progress = Math.min((now - start) / duration, 1);
+                            const current = Math.floor(progress * target);
+                            entry.target.textContent = current;
+
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            }
+                        };
+                        animate();
+                    }
+                });
+            }, observerOptions);
+
+            statNumbers.forEach(num => observer.observe(num));
+        }
+
+        // 图表初始化
+        function initCharts() {
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2019年', '2020年', '2021年', '2022年', '2023年', '2024年'],
+                    datasets: [{
+                        label: '服务项目数',
+                        data: [45, 68, 92, 110, 135, 160],
+                        backgroundColor: 'rgba(88, 166, 255, 0.6)',
+                        borderColor: 'rgba(88, 166, 255, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e0e0e0' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#a0a0a0' },
+                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#a0a0a0' },
+                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            new Chart(growthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019年', '2020年', '2021年', '2022年', '2023年', '2024年'],
+                    datasets: [{
+                        label: '客户满意度 (%)',
+                        data: [92, 94, 95, 96, 97, 98],
+                        borderColor: 'rgba(88, 166, 255, 1)',
+                        backgroundColor: 'rgba(88, 166, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(88, 166, 255, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e0e0e0' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#a0a0a0' },
+                            grid: { color: 'rgba(88, 166, 255, 0.1)' },
+                            min: 85,
+                            max: 100
+                        },
+                        x: {
+                            ticks: { color: '#a0a0a0' },
+                            grid: { color: 'rgba(88, 166, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            animateNumbers();
+            initCharts();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(kiro-cli --help)",
+      "Bash(gh search:*)",
+      "Bash(gh repo:*)",
+      "Bash(claude plugin:*)",
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(sudo chown:*)",
+      "Bash(pip3 install:*)",
+      "Bash(git --version)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:open.feishu.cn)",
+      "Bash(brew install:*)",
+      "Bash(npx skills-installer:*)",
+      "Bash(python explore_pallas.py)",
+      "Bash(python3 explore_pallas.py)",
+      "Bash(python3 scripts/with_server.py --help)",
+      "WebFetch(domain:agent.pallasai.net)",
+      "Bash(node create_doc.js)",
+      "Bash(node /Users/zhangjunjie/create_doc.js)",
+      "Bash(python3 check_link.py)",
+      "Bash(python3 login_1688.py)",
+      "Bash(python3 filter_products.py)",
+      "Bash(python3 extract_products.py)",
+      "Bash(python3 /Users/zhangjunjie/create_xlsx.py)",
+      "Bash(python3 extract_outdoor_products.py)"
+    ]
+  }
+}
